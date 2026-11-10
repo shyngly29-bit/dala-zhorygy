@@ -318,6 +318,8 @@ h1,h2,h3,.card h3,#zoom h3,.foe b,.era .y,.era .st,.tb-l .rank,.sb-rank b,.sb-h{
 @media (max-width:700px){ #topbar.topbar{padding:5px 8px} #action .foe b{font-size:16px} #action{background:var(--ib-panel)!important} }
 
 #action.action.mini{left:auto;transform:none;width:auto}
+@media (min-width:701px){ #action.action{grid-template-columns:auto minmax(0,1fr) auto auto;row-gap:6px} #action .foe{grid-column:1;grid-row:1/3} #action .cmp{grid-column:2;grid-row:1/3} #action .mainbtn{grid-column:3;grid-row:1} #atkNow{grid-column:3;grid-row:2;padding:8px 12px;font-size:14px} #action .actmin{grid-column:4;grid-row:1} }
+@media (max-width:700px){ #action.action{grid-template-columns:minmax(0,1fr) auto auto} #action .foe{grid-column:1;grid-row:1} #action .mainbtn{grid-column:2;grid-row:1} #action .actmin{grid-column:3;grid-row:1} #action .cmp{grid-column:1/4;grid-row:2} #atkNow{grid-column:1/4;grid-row:3;width:100%} #action.action{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)} #action .foe,#action .cmp{min-width:0} #action .foe b,#action .mainbtn{white-space:normal;overflow-wrap:anywhere} #action .mainbtn{max-width:48vw;line-height:1.15} }
 </style>
 
 <canvas id="map" width="1100" height="580" aria-label="XIII ғасырдағы Еуразия картасы"></canvas>
@@ -389,7 +391,7 @@ h1,h2,h3,.card h3,#zoom h3,.foe b,.era .y,.era .st,.tb-l .rank,.sb-rank b,.sb-h{
   <div class="btns"><button class="primary" id="start" type="button">Жорыққа</button></div>
 </div></div>
 
-<script src="lang.js"></script>
+<script src="lang.js?v=020ab2e3"></script>
 <script>
 const START={lon:111.5,lat:49.6};
 const STAGES=[
@@ -759,6 +761,7 @@ function render(){
     { const a=armySrc(S.army), b=armySrc(s.str); if($("meImg").getAttribute("src")!==a) $("meImg").src=a; if($("foeImg").getAttribute("src")!==b) $("foeImg").src=b; $("foeImg").alt=s.name; $("meImg").alt=t("yourArmy"); }
     $("barMe").style.width=Math.max(4,Math.min(96,S.army/(S.army+s.str)*100))+"%";
     if(S.phase==="intro") $("reward").innerHTML=`${t("briefQ",{q:S.qn})} <b>+${fmt(S.reward)}</b>`;
+    else if(S.phase==="weak") $("reward").innerHTML=`${t("toFoeShort")} <b>${t("moreThan",{n:fmt(s.str-S.army+1)})}</b>`;
     else if(S.phase==="quiz") $("reward").innerHTML=`${t("toFoeShort")} <b>${S.army>s.str?t("enough"):t("moreThan",{n:fmt(s.str-S.army+1)})}</b>`;
   } else { $("prog").style.width="100%"; $("progtxt").textContent=t("campaignDone"); $("year").textContent="1243"; $("where").textContent=t("hordeSarai");
     $("foeLbl").textContent=t("goal"); $("foeName").textContent=t("saraiYear"); $("numMe").textContent=fmt(S.army); $("numFoe").textContent="—"; $("barMe").style.width="100%"; }
