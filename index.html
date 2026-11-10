@@ -107,6 +107,9 @@ canvas{display:block;width:100%;height:auto;cursor:pointer;background:#1f4a63}
 @media (min-width:1280px) and (min-height:640px){ #qcard.qcard{left:auto;right:86px;top:50%;transform:translateY(-50%);width:min(470px,34vw)} }
 canvas#map.hovering{cursor:pointer}
 @media (max-width:1279px){ #qcard:not([hidden]) ~ #zoomctl{display:none} }
+.atknow{border-radius:10px;padding:12px 14px;font-weight:700;font-size:15px;white-space:nowrap;background:linear-gradient(180deg,#7e2c25,#B94F46);color:#fff3e8;border:1px solid #d97a6e;box-shadow:inset 0 1px 0 rgba(255,220,200,.35),0 4px 12px rgba(0,0,0,.4)}
+.atknow:hover{filter:brightness(1.1)} .action{grid-template-columns:auto minmax(0,1fr) auto auto auto}
+@media (max-width:700px){ .atknow{grid-column:2;grid-row:3;padding:9px 12px;font-size:14px} }
 /* × жабу батырмасы */
 #zoom .zc,.card{position:relative}
 .xclose{position:absolute;top:8px;right:8px;z-index:3;width:36px;height:36px;border-radius:50%;border:1px solid rgba(226,178,60,.55);background:rgba(20,24,28,.85);color:#f2e6c8;font-size:22px;line-height:1;display:grid;place-items:center;cursor:pointer;padding:0}
@@ -359,7 +362,7 @@ h1,h2,h3,.card h3,#zoom h3,.foe b,.era .y,.era .st,.tb-l .rank,.sb-rank b,.sb-h{
     <div class="bar"><i id="barMe"></i></div>
     <div class="hint" id="reward"></div>
   </div>
-  <button class="mainbtn" id="attack" type="button" disabled>Жорыққа</button><button class="actmin" id="actMin" type="button" aria-label="Жасыру">▾</button>
+  <button class="mainbtn" id="attack" type="button" disabled>Жорыққа</button><button class="atknow" id="atkNow" type="button" hidden>Шабуыл ⚔</button><button class="actmin" id="actMin" type="button" aria-label="Жасыру">▾</button>
 </section>
 
 <section class="qcard" id="qcard" hidden>
@@ -658,19 +661,20 @@ function finishQuiz(){
   if(S.army>s.str){ S.phase="ready"; idleQuestion(t("quizDone",{a:fmt(S.army),b:fmt(s.str)}));
     $("reward").innerHTML=t("readyHint"); render(); SFX.intro(); // мүйіз: шабуылға болады
     selArmy=null; focusFit(S.stage); }
-  else { S.phase="lost"; render(); idleQuestion(t("defeat")); SFX.lose();
-    showCard(`${t("stageN",{i:S.stage+1})} · ${s.name}`,t("defeat"),
-      `<div class="math">${fmt(S.army)} ≤ ${fmt(s.str)}</div><p class="fact">${t("defeatText",{n:fmt(s.str-S.army+1)})}</p>`,
-      [{label:t("retryStage"),primary:true,fn:()=>{ S.army=S.armyStart; shown=S.army; showIntro(); }},{label:t("restart"),fn:start}],true);
+  else { S.phase="weak"; render(); idleQuestion(t("weakTitle")); SFX.drum();
+    showCard(`${t("stageN",{i:S.stage+1})} · ${s.name}`,t("weakTitle"),
+      `<div class="math">${fmt(S.army)} ≤ ${fmt(s.str)}</div><p class="fact">${t("weakText",{a:fmt(S.army),b:fmt(s.str)})}</p>`,
+      [{label:t("regroup"),primary:true,fn:()=>showIntro()},{label:t("attackAnyway"),fn:()=>attack()}],true);
   }
 }
 function floatText(tx,c){ const e=document.createElement("div"); e.className="float"; e.textContent=tx; e.style.color=c; $("qcard").appendChild(e); setTimeout(()=>e.remove(),1000); }
 
 function attack(){
-  if(!S||S.phase!=="ready"||S.march||!$("overlay").hidden) return;
+  if(!S||!["ready","intro","weak","lost"].includes(S.phase)||S.march) return; $("overlay").hidden=true;
   const s=stg(); overview=false;
-  const [ex,ey]=W2(s.lon,s.lat);
+  const [ex,ey]=W2(s.lon,s.lat), from=[S.px,S.py];
   marchTo(ex+(S.px<ex?-16:16),ey+10,1100,()=>{
+    if(S.army<=s.str) return battleLost(s,from); // әскер аз — шайқаста жеңіліс
     const before=S.army, i0=rankIdx(before); S.army+=s.str; S.route.push([ex,ey]); S.flash=performance.now(); S.won=true; S.phase="card";
     const i1=rankIdx(S.army), r1=RANKS[i1][1];
     SFX.battle(); SFX.win(); [1.6,1.85,2.1].forEach(a=>SFX.drum(a)); if(i1!==i0) SFX.rank();
@@ -696,6 +700,13 @@ function attack(){
     }}]);
   });
 }
+function battleLost(s,from){
+  const before=S.army; S.army=Math.max(1,Math.floor(before/2)); S.flash=performance.now(); S.phase="card";
+  SFX.battle(); SFX.lose(); mapFloat(t("lostN",{n:fmt(before-S.army)}),"#B94F46"); render();
+  setTimeout(()=>marchTo(from[0],from[1],900,()=>{ S.phase="weak"; render(); saveGame();
+    showCard(`${t("stageN",{i:S.stage+1})} · ${s.name}`,t("battleLost"),
+      `<div class="math">${fmt(before)} ≤ ${fmt(s.str)}</div><p class="fact">${t("battleLostText",{a:fmt(before),b:fmt(s.str),c:fmt(S.army)})}</p>`,
+      [{label:t("regroup"),primary:true,fn:()=>showIntro()},{label:t("attackAnyway"),fn:()=>attack()}],true); }),700); }
 function timeStr(s){ const m=Math.floor(s/60); return m?t("minSec",{m,s:s%60}):t("sec",{s}); }
 function showCard(eyebrow,title,html,btns,lose,closable){
   const c=document.querySelector("#overlay .card");
@@ -715,15 +726,17 @@ function setAttack(){
   else if(ph==="intro"){ txt=t("startQ"); cls="go"; on=true; }
   else if(ph==="quiz"){ txt=t("qOf",{a:S.qi,b:S.qn}); }
   else if(ph==="ready"){ txt=t("attackBtn"); cls="ready"; on=true; }
+  else if(ph==="weak"){ txt=t("regroup"); cls="go"; on=true; }
   else if(ph==="lost"){ txt=t("retryStage"); cls="go"; on=true; }
   else if(!S.startedAt||ph==="march"&&!S.route.length){ txt=t("goW"); }
   else txt="…";
   b.textContent=txt; b.className="mainbtn"+(cls?" "+cls:""); b.disabled=!on;
+  const an=$("atkNow"); if(an){ an.hidden=!(["intro","weak","lost"].includes(ph)&&!S.march&&!S.done); an.textContent=t("attackAnyway"); }
 }
 function mainAction(){ if(!S) return; const ph=S.phase;
   if(ph==="intro"){ $("overlay").hidden=true; beginQuiz(); }
   else if(ph==="ready") attack();
-  else if(ph==="lost"){ $("overlay").hidden=true; S.army=S.armyStart; shown=S.army; showIntro(); }
+  else if(ph==="lost"||ph==="weak"){ $("overlay").hidden=true; showIntro(); }
   else if(ph==="end"){ $("overlay").hidden=true; start(); } }
 function render(){
   animateArmy(S.army);
@@ -1468,6 +1481,7 @@ function drawMini(){ if(!base||getComputedStyle($("mini")).display==="none") ret
   mcx.strokeStyle="#F1D18C"; mcx.lineWidth=2.5; mcx.strokeRect(vx,vy,vw,vh); mcx.fillStyle="rgba(241,209,140,.12)"; mcx.fillRect(vx,vy,vw,vh);
   if(S){ mcx.fillStyle="#35C6BB"; mcx.beginPath(); mcx.arc(S.px*sx,S.py*sy,5,0,7); mcx.fill(); if(!S.done){ const st=stg(); const [ex,ey]=W2(st.lon,st.lat); mcx.fillStyle="#B94F46"; mcx.beginPath(); mcx.arc(ex*sx,ey*sy,5,0,7); mcx.fill(); } } }
 MC.addEventListener("click",e=>{ const r=MC.getBoundingClientRect(); setFree(); free.x=(e.clientX-r.left)/r.width*WW; free.y=(e.clientY-r.top)/r.height*WH; });
+$("atkNow").onclick=()=>attack();
 $("actMin").onclick=()=>{ const a=$("action"), m=a.classList.toggle("mini"); $("actMin").textContent=m?"▴":"▾"; $("actMin").setAttribute("aria-label",t(m?"expand":"collapse")); setTimeout(calcOff,50); };
 $("gear").onclick=e=>{ e.stopPropagation(); const m=$("menu"); m.hidden=!m.hidden; $("gear").setAttribute("aria-expanded",String(!m.hidden)); };
 document.addEventListener("click",e=>{ if(!$("menu").hidden&&!e.target.closest("#menu")&&e.target.id!=="gear"){ $("menu").hidden=true; $("gear").setAttribute("aria-expanded","false"); } });
