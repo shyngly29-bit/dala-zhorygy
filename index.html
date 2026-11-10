@@ -233,10 +233,93 @@ html,body{touch-action:manipulation;overscroll-behavior:none;-webkit-text-size-a
   .action{grid-template-columns:1fr auto;gap:8px;padding:8px} .foe{grid-column:1} .cmp{grid-column:1/3;grid-row:2} .mainbtn{grid-column:2;grid-row:1;padding:10px 14px;font-size:15px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ================= IMPERIAL BRONZE — дизайн-жүйе ================= */
+:root{ --ib-bg:#101419; --ib-metal:#1B2026; --ib-bronze:#A87942; --ib-gold:#D9AD60; --ib-gold2:#F1D18C; --ib-parch:#E8D8B8;
+  --ally:#35C6BB; --enemy:#B94F46; --gold:#D9AD60; --gold-dim:#8a6630; --fg:#F1E9D8; --panel:#1B2026; --panel2:#232a31; --line:#3a3228;
+  --ib-panel:linear-gradient(180deg,rgba(35,42,49,.97),rgba(20,24,29,.97));
+  --ib-frame:inset 0 0 0 1px rgba(241,209,140,.16),inset 0 0 0 4px rgba(16,20,25,.9),inset 0 0 0 5px rgba(168,121,66,.55),0 10px 28px rgba(0,0,0,.55);
+  --ib-r:12px; }
+body{background:var(--ib-bg)}
+/* бронза панель: сыртқы алтын жиек + ішкі жіңішке рамка + бұрыштағы ромб ою */
+#topbar,#action,#qcard,#zoom .zc,#overlay .card,#menu,#toast,#side,#mini{background:var(--ib-panel)!important;border:1px solid var(--ib-bronze)!important;border-radius:var(--ib-r)!important;box-shadow:var(--ib-frame)!important}
+#topbar::before,#action::before,#side::before,#qcard::before,#overlay .card::before{content:"";position:absolute;inset:-5px;pointer-events:none;border-radius:inherit;
+  background:
+   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cpath d='M7 0L14 7L7 14L0 7Z' fill='%23D9AD60'/%3E%3Cpath d='M7 3L11 7L7 11L3 7Z' fill='%23101419'/%3E%3C/svg%3E") 0 0/14px no-repeat,
+   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cpath d='M7 0L14 7L7 14L0 7Z' fill='%23D9AD60'/%3E%3Cpath d='M7 3L11 7L7 11L3 7Z' fill='%23101419'/%3E%3C/svg%3E") 100% 0/14px no-repeat,
+   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cpath d='M7 0L14 7L7 14L0 7Z' fill='%23D9AD60'/%3E%3Cpath d='M7 3L11 7L7 11L3 7Z' fill='%23101419'/%3E%3C/svg%3E") 0 100%/14px no-repeat,
+   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14'%3E%3Cpath d='M7 0L14 7L7 14L0 7Z' fill='%23D9AD60'/%3E%3Cpath d='M7 3L11 7L7 11L3 7Z' fill='%23101419'/%3E%3C/svg%3E") 100% 100%/14px no-repeat}
+#topbar,#action,#side{position:fixed} #qcard,#overlay .card{position:fixed}
+#overlay .card{position:relative}
+/* тақырыптар — тарихи қаріп, алтын */
+h1,h2,h3,.card h3,#zoom h3,.foe b,.era .y,.era .st,.tb-l .rank,.sb-rank b,.sb-h{font-family:"Cormorant SC","Alegreya SC",serif;letter-spacing:.02em}
+.card h3,#zoom h3,.era .y,.tb-l .rank,.sb-rank b{color:var(--ib-gold2)!important;text-shadow:0 1px 0 #3a2508,0 0 14px rgba(217,173,96,.25)}
+.label{color:#b9a27a!important}
+/* батырмалар: алтын құйма */
+.primary,.mainbtn.go,.mainbtn.ready{background:linear-gradient(180deg,#F6DE9E 0%,#D9AD60 45%,#A87942 100%)!important;color:#1d1307!important;border:1px solid #6b4a1f!important;
+  box-shadow:inset 0 1px 0 rgba(255,250,230,.7),inset 0 -2px 0 rgba(80,50,15,.35),0 4px 14px rgba(0,0,0,.45),0 0 0 1px rgba(241,209,140,.25)!important;font-weight:700;letter-spacing:.01em}
+.primary:hover,.mainbtn.go:hover,.mainbtn.ready:hover{filter:brightness(1.07)}
+.mainbtn.ready{animation:ibglow 1.6s ease-in-out infinite} @keyframes ibglow{50%{box-shadow:inset 0 1px 0 rgba(255,250,230,.7),0 0 22px rgba(241,209,140,.75)}}
+.mainbtn{border-radius:10px!important}
+.secondary,.ghost,.gear,.actmin,.langsw button,.qsw button{background:linear-gradient(180deg,#2a3139,#1a1f25)!important;border:1px solid rgba(168,121,66,.7)!important;color:var(--ib-parch)!important}
+.langsw button.on,.qsw button.on{border-color:var(--ib-gold2)!important;color:var(--ib-gold2)!important;box-shadow:0 0 0 1px rgba(241,209,140,.3) inset}
+.xclose{background:linear-gradient(180deg,#2a3139,#14181d)!important;border-color:var(--ib-bronze)!important;color:var(--ib-gold2)!important}
+/* карта басқару батырмалары */
+#zoomctl button{background:linear-gradient(180deg,rgba(42,49,57,.92),rgba(20,24,29,.92))!important;border:1px solid var(--ib-bronze)!important;color:var(--ib-gold2)!important;border-radius:10px!important;box-shadow:inset 0 0 0 2px rgba(16,20,25,.8),inset 0 0 0 3px rgba(168,121,66,.35),0 4px 12px rgba(0,0,0,.45)!important}
+#zoomctl button:hover{color:#fff!important;box-shadow:inset 0 0 0 2px rgba(16,20,25,.8),inset 0 0 0 3px rgba(241,209,140,.6),0 0 14px rgba(217,173,96,.45)!important}
+/* уақыт шкаласы */
+.timeline .chip b{background:#1a1f25!important;border:1px solid rgba(168,121,66,.6)!important;color:var(--ib-parch)!important}
+.timeline .chip.done b{background:var(--ally)!important;border-color:var(--ally)!important;color:#08201d!important}
+.timeline .chip.cur b{background:linear-gradient(180deg,#F1D18C,#A87942)!important;border-color:#F1D18C!important;color:#1d1307!important}
+.progress{background:#0d1014!important;border:1px solid rgba(168,121,66,.35)} .progress i{background:linear-gradient(90deg,var(--ally),#7fe0d6)!important}
+.bar{background:linear-gradient(90deg,#7e2c25,var(--enemy))!important;border:1px solid rgba(168,121,66,.4);height:12px!important}
+.bar i{background:linear-gradient(90deg,#1f8f86,var(--ally))!important;border-right:2px solid #F1E9D8!important}
+/* логотип */
+.logo{display:none;align-items:center;gap:8px;text-decoration:none}
+.logo .emb{width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 40% 35%,#F6DE9E,#A87942 70%);color:#2a1806;font-size:20px;box-shadow:0 0 0 2px #6b4a1f,0 0 12px rgba(217,173,96,.45)}
+.logo b{font-family:"Cormorant SC","Alegreya SC",serif;color:var(--ib-gold2);font-size:19px;line-height:.95;letter-spacing:.06em;text-shadow:0 1px 0 #3a2508}
+/* төменгі шайқас панелі: сол жағында дала суреті */
+#action{background:linear-gradient(90deg,rgba(20,24,29,.25) 0%,rgba(24,29,35,.96) 30%,rgba(20,24,29,.97) 100%),url("bg/steppe.webp") left 60%/42% auto no-repeat,#14181d!important}
+#action .foe b{color:var(--ib-gold2)!important;font-size:20px}
+.tcard img{box-shadow:0 0 0 2px var(--c),0 0 0 3px rgba(16,20,25,.9),0 0 12px var(--c)!important}
+/* сұрақ терезесі */
+#qcard .answers button{background:linear-gradient(180deg,#262d35,#1a1f25)!important;border:1px solid rgba(168,121,66,.55)!important;color:var(--fg)!important}
+#qcard .answers button:hover:not(:disabled){border-color:var(--ib-gold2)!important;box-shadow:0 0 12px rgba(217,173,96,.3)}
+#qcard .answers button.ok{background:linear-gradient(180deg,#1f5047,#173a34)!important;border-color:var(--ally)!important}
+#qcard .answers button.bad{background:linear-gradient(180deg,#5a241f,#3e1915)!important;border-color:var(--enemy)!important}
+#qcard .timer{background:#0d1014;border:1px solid rgba(168,121,66,.3)} #qcard .timer i{background:linear-gradient(90deg,#A87942,#F1D18C)!important}
+.qcount{border-color:var(--ib-bronze)!important;color:var(--ib-gold2)!important}
+/* ===== ПК: сол жақ панель, логотип, мини-карта ===== */
+.side,.mini{display:none}
+@media (min-width:1100px){
+  .logo{display:flex} #topbar .tb-l{display:none} #topbar{grid-template-columns:auto minmax(0,1fr) auto!important}
+  .side{display:flex;flex-direction:column;gap:10px;z-index:6;left:max(12px,env(safe-area-inset-left,0px));top:96px;width:250px;max-height:calc(100vh - 110px);overflow:auto;padding:12px;transition:width .2s ease,padding .2s ease;scrollbar-width:thin}
+  .side.col{width:72px;padding:8px} .side.col .sb-txt,.side.col .sb-row,.side.col .sb-goal,.side.col .progress{display:none}
+  .sidetog{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:7px;border:1px solid var(--ib-bronze);background:#1a1f25;color:var(--ib-gold2);font-size:15px;padding:0;z-index:2}
+  .side.col .sidetog{right:auto;left:22px;top:auto;bottom:8px}
+  .sb-por img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:8px;border:1px solid var(--ib-bronze);background:url("bg/steppe.webp") center 70%/cover;cursor:zoom-in;display:block}
+  .side.col .sb-por img{aspect-ratio:2/3}
+  .sb-rank{display:flex;justify-content:space-between;align-items:baseline;margin:6px 2px 4px} .sb-rank b{font-size:22px} .sb-rank span{font-family:var(--f-num);font-weight:700;font-size:22px;color:var(--ally)}
+  .sb-row{display:flex;gap:8px;align-items:center;padding:7px 8px;border:1px solid rgba(168,121,66,.35);border-radius:8px;background:rgba(16,20,25,.5);color:var(--ib-parch);font-size:15px} .sb-row b{color:var(--ib-gold2)} .sb-row .ic{color:var(--ib-gold)}
+  .sb-goal{padding:8px;border:1px solid rgba(168,121,66,.35);border-radius:8px;background:rgba(16,20,25,.5)} .sb-h{color:var(--ib-gold2);font-size:16px;margin-bottom:4px}
+  .sb-goal p{margin:2px 0 6px;font-size:13px;color:var(--ib-parch)} .sb-goal ul{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:13px;color:var(--ib-parch)}
+  .sb-goal li::before{content:"◆";color:var(--ib-gold);margin-right:6px;font-size:10px} .sb-goal li.ok::before{content:"✓";color:var(--ally)}
+  /* шайқас панелі мен бос аймақ сол панельге сыйысады */
+  #action.action{left:calc(50% + 131px);width:min(760px,calc(100vw - 300px - 90px))}
+  .side.col ~ #action.action{left:calc(50% + 42px)}
+  .mini{display:block;position:fixed;z-index:6;right:max(12px,env(safe-area-inset-right,0px));top:96px;padding:6px;cursor:pointer}
+  .mini canvas{display:block;width:240px;height:66px;border-radius:6px}
+  #zoomctl.zoomctl{top:auto;bottom:auto;top:calc(96px + 92px);transform:none}
+}
+@media (min-width:1100px) and (max-height:760px){ .side{top:86px} .mini{top:86px} #zoomctl.zoomctl{top:178px} }
+/* телефон: ықшам бронза HUD */
+@media (max-width:700px){ #topbar.topbar{padding:5px 8px} #action .foe b{font-size:16px} #action{background:var(--ib-panel)!important} }
+
+#action.action.mini{left:auto;transform:none;width:auto}
 </style>
 
 <canvas id="map" width="1100" height="580" aria-label="XIII ғасырдағы Еуразия картасы"></canvas>
 <header class="topbar" id="topbar">
+  <div class="logo" aria-label="Dala Zhorygy"><span class="emb">✸</span><b>DALA<br>ZHORYGY</b></div>
   <div class="tb-l">
     <img class="portrait" id="rankimg" src="ranks/rank1.webp" alt="Атақ бейнесі" title="Атақ туралы">
     <div><div class="label" data-t="yourArmy">Сенің әскерің</div><div class="big" id="army">1</div><b class="rank" id="rank">Сарбаз</b></div>
@@ -260,6 +343,15 @@ html,body{touch-action:manipulation;overscroll-behavior:none;-webkit-text-size-a
   </div>
 </header>
 
+<aside class="side" id="side">
+  <button class="sidetog" id="sideTog" type="button" aria-label="‹">‹</button>
+  <div class="sb-por"><img id="sbImg" src="ranks/rank1.webp" alt=""><div class="sb-rank sb-txt"><b id="sbRank">Сарбаз</b><span id="sbArmy">1</span></div><div class="progress"><i id="sbProg" style="width:0"></i></div></div>
+  <div class="sb-row"><span class="ic">⌛</span><span data-t="yearW">Жыл</span>: <b id="sbYear">1203</b></div>
+  <div class="sb-row"><span class="ic">⚑</span><b id="sbStage">1-кезең · Керейлер</b></div>
+  <div class="sb-goal"><div class="sb-h" data-t="mainGoal">Негізгі мақсат</div><p id="sbGoal"></p><div class="progress"><i id="sbGoalP" style="width:0"></i></div></div>
+  <div class="sb-goal"><div class="sb-h" data-t="sideTasks">Жорық барысы</div><ul id="sbTasks"></ul></div>
+</aside>
+<div class="mini" id="mini" title="minimap"><canvas id="miniCv" width="480" height="132"></canvas></div>
 <section class="action" id="action">
   <div class="foe"><span class="label" id="foeLbl">Келесі жау</span><b id="foeName">Керейлер · 1203</b><small class="ratio" id="ratio">1 : 500</small></div>
   <div class="cmp">
@@ -468,7 +560,7 @@ function calcOff(){ try{ const H=innerHeight, T=$("topbar").getBoundingClientRec
 let focus=null, focusBox=null, selArmy=null; const ARMYPOS={}; // таңдалған аймаққа камераны жайлап жақындату
 function focusTo(x,y,z){ free=null; overview=false; focus={x,y,z}; $("view").textContent=t("overview"); }
 // Екі әскерді панельдер арасындағы бос аймақтың ортасына, айналасында орын қалдырып орналастыру
-function freeArea(){ try{ const T=$("topbar").getBoundingClientRect(), A=$("action").getBoundingClientRect(), Q=$("qcard"); let x1=innerWidth-70; if(!Q.hidden){ const q=Q.getBoundingClientRect(); if(q.left>innerWidth*.45) x1=Math.min(x1,q.left-10); } return {x0:0,x1,y0:T.bottom,y1:A.top}; }catch(e){ return {x0:0,x1:innerWidth,y0:0,y1:innerHeight}; } }
+function freeArea(){ try{ const T=$("topbar").getBoundingClientRect(), A=$("action").getBoundingClientRect(), Q=$("qcard"); let x0=0; const Sd=$("side"); if(Sd&&getComputedStyle(Sd).display!=="none") x0=Sd.getBoundingClientRect().right+8; let x1=innerWidth-70; if(!Q.hidden){ const q=Q.getBoundingClientRect(); if(q.left>innerWidth*.45) x1=Math.min(x1,q.left-10); } return {x0,x1,y0:T.bottom,y1:A.top}; }catch(e){ return {x0:0,x1:innerWidth,y0:0,y1:innerHeight}; } }
 function fitBox(x0,y0,x1,y1,zmin,zmax){ const F=freeArea(), fw=F.x1-F.x0, fh=F.y1-F.y0, padX=150, padTop=170, padBot=70; // әскер биіктігі мен атау үшін орын
   const z=Math.max(zmin,Math.min(zmax,Math.min((fw-padX*2)/Math.max(1,x1-x0),(fh-padTop-padBot)/Math.max(1,y1-y0))));
   const cxw=(x0+x1)/2, cyw=(y0+y1)/2-(padTop-padBot)/2/z; // экран ортасы → бос аймақ ортасы (camOff арқылы)
@@ -657,6 +749,13 @@ function render(){
     else if(S.phase==="quiz") $("reward").innerHTML=`${t("toFoeShort")} <b>${S.army>s.str?t("enough"):t("moreThan",{n:fmt(s.str-S.army+1)})}</b>`;
   } else { $("prog").style.width="100%"; $("progtxt").textContent=t("campaignDone"); $("year").textContent="1243"; $("where").textContent=t("hordeSarai");
     $("foeLbl").textContent=t("goal"); $("foeName").textContent=t("saraiYear"); $("numMe").textContent=fmt(S.army); $("numFoe").textContent="—"; $("barMe").style.width="100%"; }
+  if($("sbRank")){ const nx=RANKS[ri+1]; $("sbRank").textContent=RANKS[ri][1]; $("sbArmy").textContent=fmt(S.army); const si=`ranks/rank${Math.max(1,ri)}.webp`; if(!$("sbImg").src.endsWith(si)) $("sbImg").src=si;
+    $("sbProg").style.width=(nx?Math.min(100,(S.army-RANKS[ri][0])/(nx[0]-RANKS[ri][0])*100):100)+"%";
+    $("sbYear").textContent=S.done?"1243":s.year; $("sbStage").textContent=S.done?t("hordeSarai"):`${t("stageN",{i:S.stage+1})} · ${s.name}`;
+    $("sbGoal").textContent=t("goalKhan"); $("sbGoalP").style.width=Math.min(100,Math.log10(Math.max(1,S.army))/7*100)+"%";
+    const tk=[]; if(!S.done) tk.push([S.army>s.str,S.army>s.str?t("taskFoeOk",{f:s.name}):t("taskFoe",{f:s.name,n:fmt(s.str-S.army+1)})]);
+    tk.push([false,t("taskAcc",{c:S.correct,t:S.total})]); if(nx) tk.push([false,t("taskRank",{r:nx[1],n:fmt(nx[0])})]);
+    $("sbTasks").innerHTML=tk.map(([ok,x])=>`<li class="${ok?"ok":""}">${x}</li>`).join(""); }
   $("strip").innerHTML=STAGES.map((x,i)=>{ const c=(S.done||i<S.stage||(i===S.stage&&S.won))?"done":i===S.stage?"cur":""; return `<span class="chip ${c}" title="${x.name} · ${x.year}"><b>${c==="done"?"✓":i+1}</b><span>${x.name}</span></span>`; }).join("")+`<span class="chip ${S.phase==="end"?"done":""}" title="${t("hordeYear")}"><b>★</b></span>`;
   // атақ өзгерсе — қысқа хабарлама
   if(lastRank!==null&&ri>lastRank){ toast(`<img src="ranks/rank${ri}.webp" alt=""><div><b>${t("newRank")} ${RANKS[ri][1]}</b>${t("rankToast",{n:fmt(RANKS[ri][0])})}</div>`); }
@@ -1207,13 +1306,14 @@ function draw(t){
   mapFloats=mapFloats.filter(f=>t-f.t0<1600); mapFloats.forEach((f,i)=>{ const p=(t-f.t0)/1600;
     cx.save(); cx.globalAlpha=Math.min(1,(1-p)*1.6); cx.font=`800 ${22*u}px 'Noto Sans',Arial,sans-serif`; cx.textAlign="center"; cx.lineJoin="round";
     const y=S.py-(110+p*60)*u-i*26*u; cx.strokeStyle="rgba(0,0,0,.7)"; cx.lineWidth=3.5*u; cx.strokeText(f.txt,S.px,y); cx.fillStyle=f.col; cx.fillText(f.txt,S.px,y); cx.restore(); });
+  if(++miniN%6===0) drawMini();
   perfTick(t);
   requestAnimationFrame(draw);
 }
 // FPS бақылау: тым баяу болса — автоматты түрде жеңілдету
 let lastT=0, ema=16, slowN=0;
 const t2=k=>t(k);
-function perfTick(tm){ const dt=lastT?tm-lastT:16; lastT=tm; if(dt>0&&dt<500) ema=ema*.95+dt*.05; if(!autoLow&&QUALITY!=="perf"&&!document.hidden){ slowN=ema>38?slowN+1:0; if(slowN>150){ autoLow=true; fitCanvas(); base=null; toast(`<div><b>${t2("autoLow")}</b></div>`); } } }
+function perfTick(tm){ const dt=lastT?tm-lastT:16; lastT=tm; if(dt>0&&dt<500) ema=ema*.95+dt*.05; if(!autoLow&&QUALITY!=="perf"&&!document.hidden){ slowN=ema>48?slowN+1:0; if(slowN>240){ autoLow=true; fitCanvas(); base=null; toast(`<div><b>${t2("autoLow")}</b></div>`); } } }
 /* Тышқанмен масштаб және жылжыту */
 let free=null, drag=null, dragMoved=false;
 const evPt=e=>{ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)*VW/r.width,(e.clientY-r.top)*VH/r.height]; };
@@ -1358,6 +1458,16 @@ function applyQuality(q){ QUALITY=q; autoLow=false; try{ localStorage.setItem("s
 document.querySelectorAll(".qsw button").forEach(b=>b.onclick=()=>applyQuality(b.dataset.q)); document.querySelectorAll(".qsw button").forEach(b=>b.classList.toggle("on",b.dataset.q===QUALITY));
 $("zarmy").onclick=()=>{ free=null; focus=null; focusBox=null; overview=false; selArmy=-1; $("view").textContent=t("overview"); };
 document.addEventListener("keydown",e=>{ if(!$("overlay").hidden||!$("zoom").hidden||e.ctrlKey||e.metaKey) return; if(e.key==="+"||e.key==="=") zoomBy(1.25); else if(e.key==="-"||e.key==="_") zoomBy(.8); else if(e.key==="0") routeFit(); });
+$("sideTog").onclick=()=>{ const c=$("side").classList.toggle("col"); $("sideTog").textContent=c?"›":"‹"; setTimeout(calcOff,250); };
+$("sbImg").onclick=()=>showRank();
+// Шағын карта: негізгі картаның кішірейтілген түрі, көрінетін аймақ және әскер; басқанда сол жерге апарады
+const MC=$("miniCv"), mcx=MC.getContext("2d"); let miniN=0;
+function drawMini(){ if(!base||getComputedStyle($("mini")).display==="none") return; const w=MC.width, h2=MC.height, sx=w/WW, sy=h2/WH;
+  mcx.drawImage(base,0,0,w,h2); if(over) mcx.drawImage(over,0,0,w,h2);
+  const vx=(cam.x-VW/2/cam.z)*sx, vy=(cam.y-VH/2/cam.z)*sy, vw=VW/cam.z*sx, vh=VH/cam.z*sy;
+  mcx.strokeStyle="#F1D18C"; mcx.lineWidth=2.5; mcx.strokeRect(vx,vy,vw,vh); mcx.fillStyle="rgba(241,209,140,.12)"; mcx.fillRect(vx,vy,vw,vh);
+  if(S){ mcx.fillStyle="#35C6BB"; mcx.beginPath(); mcx.arc(S.px*sx,S.py*sy,5,0,7); mcx.fill(); if(!S.done){ const st=stg(); const [ex,ey]=W2(st.lon,st.lat); mcx.fillStyle="#B94F46"; mcx.beginPath(); mcx.arc(ex*sx,ey*sy,5,0,7); mcx.fill(); } } }
+MC.addEventListener("click",e=>{ const r=MC.getBoundingClientRect(); setFree(); free.x=(e.clientX-r.left)/r.width*WW; free.y=(e.clientY-r.top)/r.height*WH; });
 $("actMin").onclick=()=>{ const a=$("action"), m=a.classList.toggle("mini"); $("actMin").textContent=m?"▴":"▾"; $("actMin").setAttribute("aria-label",t(m?"expand":"collapse")); setTimeout(calcOff,50); };
 $("gear").onclick=e=>{ e.stopPropagation(); const m=$("menu"); m.hidden=!m.hidden; $("gear").setAttribute("aria-expanded",String(!m.hidden)); };
 document.addEventListener("click",e=>{ if(!$("menu").hidden&&!e.target.closest("#menu")&&e.target.id!=="gear"){ $("menu").hidden=true; $("gear").setAttribute("aria-expanded","false"); } });
